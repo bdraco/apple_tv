@@ -340,7 +340,7 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if entry.data.get(CONF_ADDRESS) != discovered_ip_address:
                 self.hass.config_entries.async_update_entry(
                     entry,
-                    data={**entry.data, CONF_ADDRESS: discovered_ip_address},
+                    data={**entry.data, CONF_ADDRESS: discovered_ip_address, CONF_IDENTIFIERS: list(all_identifiers)},
                 )
                 self.hass.async_create_task(
                     self.hass.config_entries.async_reload(entry.entry_id)
