@@ -277,6 +277,7 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle device found after Zeroconf discovery."""
         self.context["all_identifiers"] = self.atv.all_identifiers
         # Also abort if an integration with this identifier already exists
+        _LOGGER.warning("async_found_zeroconf_device: %s %s", self.scan_filter, self.atv.all_identifiers)
         await self.async_set_unique_id(self.device_identifier)
         # but be sure to update the address if its changed so the scanner
         # will probe the new address
@@ -295,8 +296,10 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             await self.async_find_device(allow_exist)
         except DeviceNotFound:
+            _LOGGER.warning("Device not found: %s", self.scan_filter)
             return self.async_abort(reason="no_devices_found")
         except DeviceAlreadyConfigured:
+            _LOGGER.warning("already_configured: %s", self.scan_filter)
             return self.async_abort(reason="already_configured")
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception("Unexpected exception")
