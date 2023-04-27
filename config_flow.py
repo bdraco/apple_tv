@@ -204,13 +204,13 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._async_abort_entries_match({CONF_ADDRESS: host})
 
 
-        _LOGGER.warning("_async_aggregate_discoveries: %s, %s", host, unique_id)
+        _LOGGER.warning("_async_aggregate_discoveries: %s, %s, %s, %s", host, service_type, unique_id, properties)
 
         await self._async_aggregate_discoveries(host, unique_id)
         # Scan for the device in order to extract _all_ unique identifiers assigned to
         # it. Not doing it like this will yield multiple config flows for the same
         # device, one per protocol, which is undesired.
-        _LOGGER.warning("async_find_device_wrapper: %s, %s", host, unique_id)
+        _LOGGER.warning("async_find_device_wrapper: %s, %s, %s, %s", host, service_type, unique_id, properties)
 
         self.scan_filter = host
         return await self.async_find_device_wrapper(self.async_found_zeroconf_device)
