@@ -336,7 +336,7 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             existing_identifiers = set(entry.data.get(CONF_IDENTIFIERS, [entry.unique_id]))
             if not all_identifiers.intersection(existing_identifiers):
                 continue
-            combined_identifiers = set(existing_identifiers) | all_identifiers
+            combined_identifiers = existing_identifiers | all_identifiers
             if entry.data.get(CONF_ADDRESS) != discovered_ip_address or combined_identifiers != set(entry.data.get(CONF_IDENTIFIERS, [])):
                 self.hass.config_entries.async_update_entry(
                     entry,
