@@ -309,6 +309,7 @@ class AppleTVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.atv, self.atv_identifiers = await device_scan(
             self.hass, self.scan_filter, self.hass.loop
         )
+        _LOGGER.warning("async_find_device: %s, %s, %s", self.atv, self.atv_identifiers, self.scan_filter)
         if not self.atv:
             raise DeviceNotFound()
 
